@@ -33,7 +33,7 @@ export default function Add_product() {
             const msg = await resp.text();
             alert(msg);
             if (msg === "Product added successfully") {
-                navigate('/pm'); // Redirect to Product M  anagement page
+                navigate('/product-management'); // Redirect to Product MManagement page
             }
         } catch (error) {
             console.error("Error:", error);

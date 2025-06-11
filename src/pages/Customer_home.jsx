@@ -47,11 +47,11 @@ export default function Customer_home() {
       {error && <p className="text-center text-danger">{error}</p>}
 
       {!loading && !error && (
-        products.lenght ? (
+        products.length ? (
           <div className="products-grid">
             {products.map((p) => (
               <ProductCard
-                key={p._id}
+                key={p.id}
                 product={p}
                 onAddToCart={() => handleAddToCart(p)} 
               />
