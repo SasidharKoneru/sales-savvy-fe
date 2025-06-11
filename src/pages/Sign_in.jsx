@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Sign_in() {
@@ -10,10 +10,7 @@ export default function Sign_in() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const data = {
-      username,
-      password
-    };
+    const data = { username, password };
 
     try {
       const resp = await fetch('http://localhost:8081/signIn', {
@@ -31,7 +28,7 @@ export default function Sign_in() {
       } else if (msg === "customer") {
         navigate('/customer-home');
       } else {
-        alert("Invalid credentials");
+        alert(msg);
       }
     } catch (error) {
       console.error('Error during sign in:', error);
@@ -40,28 +37,40 @@ export default function Sign_in() {
 }
 
   return (
-    <>
-        <h4>Sign in below:</h4>
-        <form onSubmit={handleSubmit}>
-            <label>Username: </label>
-            <input
-              type = "text"
-              name = "username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <br /><br />
+    <div className="auth-wrap center-block card mt-6">
+      <h4 className="text-center mb-4">Sign in</h4>
 
-            <label>Password: </label>
-            <input
-              type = "password"
-              name = "password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <br /><br />
-             <button type="submit">SIGN IN</button>
-        </form>
-    </>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            className="form-control"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary mt-3">Sign In</button>
+      </form>
+      <p className="mt-3 text-center">
+        Don't have an account? <a href="/sign-up">Sign Up</a>
+      </p>
+    </div>
+
   );
 }
