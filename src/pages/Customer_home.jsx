@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import ProductCard from '../components/ProductCard';
+import React, { useState, useEffect } from "react";
+import ProductCard from "../components/ProductCard";
 
 export default function Customer_home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  /* fetch catalogue once */
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("http://localhost:8081/getAllProducts");
-        if(!res.ok) throw new Error("Failed to fetch products");
+        const res = await fetch("http://localhost:8080/getAllProducts");
+        if (!res.ok) throw new Error("Failed to fetch products");
         setProducts(await res.json());
       } catch (err) {
         setError(err.message);
@@ -21,30 +20,39 @@ export default function Customer_home() {
     })();
   }, []);
 
-  /* add-to-cart hangler */
-  async function handleAddToCart(product) {
+  async function handleAddToCart(product, qty) {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      alert("Please sign in first");
+      return;
+    }
+
     try {
-      await fetch("https://localhost:8081/addToCart",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId: product.id, quantity: 1 }),
-        });
-        alert(`Added "${product.name}" to cart`);
-      } catch (err) {
-        console.error(err);
-        alert("Could not add to cart");
-      }
+      const resp = await fetch("http://localhost:8080/addToCart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: product.id,
+          username,
+          quantity: qty
+        })
+      });
+
+      if (resp.ok) alert(`Added \"${product.name}\" (x${qty}) to cart`);
+      else alert("Could not add to cart");
+    } catch (err) {
+      console.error(err);
+      alert("Could not add to cart");
+    }
   }
 
-  /*---------------------------------------------------*/
-  return(
+  return (
     <div className="customer-home container mt-6">
       <h1 className="text-center mb-4">Welcome to Sales-Savvy</h1>
-      <h2 className="text-center m6-6">Available Products</h2>
+      <h2 className="text-center mb-6">Available Products</h2>
 
-      {loading && <p className="text-center">Loading products...</p>}
-      {error && <p className="text-center text-danger">{error}</p>}
+      {loading && <p className="text-center">Loading…</p>}
+      {error && <p className="text-center">{error}</p>}
 
       {!loading && !error && (
         products.length ? (
@@ -53,13 +61,11 @@ export default function Customer_home() {
               <ProductCard
                 key={p.id}
                 product={p}
-                onAddToCart={() => handleAddToCart(p)} 
+                onAddToCart={handleAddToCart}
               />
             ))}
-            </div>
-        ): (
-          <p className="text-center">No products available</p>
-        )
+          </div>
+        ) : <p className="text-center">No products available</p>
       )}
     </div>
   );
