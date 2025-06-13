@@ -12,7 +12,7 @@ export default function Sign_in() {
     const data = { username, password };
 
     try {
-      const resp = await fetch("http://localhost:8080/signIn", {
+      const resp = await fetch("http://localhost:8081/signIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export default function Sign_in() {
 
       if (msg === "admin" || msg === "customer") {
         localStorage.setItem("username", username); // Username is already known from input
-        navigate(`/${msg}_home`);
+        navigate(`/${msg}-home`);
       } else {
         alert(msg); // show error message like "wrong password"
       }
