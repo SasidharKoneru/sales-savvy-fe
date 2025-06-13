@@ -6,13 +6,10 @@ export default function Customer_home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
 
-  /* (optional) simple text search */
-  const [search, setSearch] = useState("");
-
-  /* ------------------------------------------------------------------ */
   useEffect(() => {
     (async () => {
       try {
@@ -27,7 +24,6 @@ export default function Customer_home() {
     })();
   }, []);
 
-  /* add-to-cart handler ------------- */
   async function handleAddToCart(product, qty = 1) {
     const username = localStorage.getItem("username");
     if (!username) return alert("Please sign in first");
@@ -48,18 +44,14 @@ export default function Customer_home() {
     }
   }
 
-  /* live search filter (optional) */
   const filtered = products.filter((p) =>
     (p.name + p.description)
     .toLowerCase()
     .includes(search.toLowerCase())
   );
 
-  /* ------------------------------------------------------------------ */
   return (
     <section className="customer-home">
-
-      {/* hero / headline */}
       <header className="shop-header">
         <h1 className="shop-title">Welcome to Sales&nbsp;Savvy</h1>
         <p className="shop-tagline">

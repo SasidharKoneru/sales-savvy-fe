@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 
 /**
- * Horizontal product card with qty selector
- * ------------------------------------------------
- * Props
+ * Props:
  *   product       { id, name, price, description, photo }
  *   onAddToCart   fn(product, qty)
  */
-
 export default function ProductCard({ product, onAddToCart }) {
   const [qty, setQty] = useState(1);
-
   if(!product) return null;
 
   /* helpers */

@@ -20,10 +20,10 @@ export default function Welcome() {
       </p>
       {/* big call-to-action blocks */}
       <div className="cta-blocks">
-        <NavLink to="/sign_up" className="cta-card">
+        <NavLink to="/sign-up" className="cta-card">
           <span className="cta-text">Create account</span>
         </NavLink>
-        <NavLink to="/sign_in" className="cta-card">
+        <NavLink to="/sign-in" className="cta-card">
           <span className="cta-text">Sign&nbsp;in</span>
         </NavLink>
       </div>
